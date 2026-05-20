@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>พยากรณ์น้ำมัน | Advance Dynamic Platform</title>
+    <title>คาดการณ์ราคาน้ำมัน | Advance Dynamic Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
         
         body { 
             font-family: 'Inter', 'Noto Sans Thai', sans-serif; 
-            background-color: #F0F2F0; /* สีถนอมสายตา Nordic Linen */
+            background-color: #F0F2F0; /* Soft Nordic Linen */
             color: #444B4D; 
             transition: all 0.4s ease;
             -webkit-font-smoothing: antialiased;
@@ -49,8 +49,7 @@
         <!-- Header Section -->
         <header class="flex flex-col items-center mb-12 gap-6 text-center">
             <div>
-                <!-- นำหัวข้อเล็กด้านบนออกตามคำขอ -->
-                <h1 class="text-4xl font-semibold tracking-tight text-[#2F3535] mt-1 uppercase">พยากรณ์ <span class="font-light italic text-slate-500">น้ำมัน</span></h1>
+                <h1 class="text-4xl font-semibold tracking-tight text-[#2F3535] mt-1 uppercase">คาดการณ์ <span class="font-light italic text-slate-500">ราคาน้ำมัน</span></h1>
                 <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-bold italic">Updated 20 May 2569 | 18:18</p>
             </div>
 
@@ -66,7 +65,7 @@
         <section x-show="mode === 'classic'" x-transition:enter.duration.500ms x-cloak class="space-y-4">
             <div class="nordic-card p-8 flex justify-between items-center border-b-4 border-[#A3B18A]">
                 <span class="text-sm font-medium text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
-                <span class="text-sage font-bold text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
+                <span class="text-sage font-bold text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest text-center">คาดว่าปรับลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <template x-for="oil in [
@@ -109,7 +108,7 @@
             <div class="nordic-card p-8 bg-[#2F3535] text-[#F0F2F0]">
                 <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-bold">กลยุทธ์การบริหารคลัง (Tank Strategy)</h3>
                 <p class="text-lg font-light leading-relaxed">
-                    "ราคาวันพรุ่งนี้มีแนวโน้มปรับลดลง แนะนำให้บริหารสต็อกในระดับ <span class="text-[#A3B18A] font-bold italic underline">LOW STOCK</span> เพื่อรอสั่งน้ำมันลอตใหม่ในราคาต้นทุนที่ถูกลง"
+                    "ราคาวันพรุ่งนี้มีแนวโน้มปรับลดลงตามโมเดลพยากรณ์ แนะนำให้บริหารสต็อกในระดับ <span class="text-[#A3B18A] font-bold italic underline">LOW STOCK</span> เพื่อรอรับน้ำมันลอตใหม่ในราคาต้นทุนที่ถูกลง"
                 </p>
             </div>
         </section>
@@ -118,24 +117,31 @@
         <section x-show="mode === 'nerd'" x-transition:enter.duration.500ms x-cloak class="space-y-6 nerd-font">
             <div class="bg-[#282C34] rounded-3xl p-8 text-[#A9B7C6] overflow-x-auto shadow-xl border border-slate-700">
                 <div class="flex gap-4 mb-6 border-b border-[#3E4451] pb-3 text-[10px] uppercase tracking-widest">
-                    <span class="text-[#98C379] font-bold underline">● Model_Regression_v3.0</span>
+                    <span class="text-[#98C379] font-bold underline">● Predictive_Model_v3.0</span>
                     <span class="text-slate-500 italic">Core: All-Parameters</span>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed text-left">
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>GRM_SMOOTHED:</span> <span class="text-[#98C379]">2.2900</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>BRENT_THB_TERM:</span> <span class="text-[#98C379]">3632.57</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>OIL_FUND_DIFF:</span> <span class="text-[#E06C75] font-bold">-2.23</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>MARKETING_MARGIN:</span> <span class="text-[#98C379]">2.4000</span></div>
                 </div>
                 <div class="mt-8 pt-4 text-[10px] text-[#5C6370] italic leading-loose">
-                    LOG: Feature importance weighting (Mogas95: 0.68). Next-day retail delta confirm @ -0.60 THB/L.
+                    LOG: Predictive delta based on 60D rolling average. Output confirm @ -0.60 THB/L.
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="mt-20 text-center">
+        <!-- Footer & Legal Disclaimer -->
+        <footer class="mt-20 text-center space-y-6">
             <p class="text-[10px] uppercase tracking-[0.5em] text-[#B2BBBB] font-medium tracking-widest">Advance Dynamic Platform</p>
+            
+            <!-- Professional Legal Disclaimer -->
+            <div class="max-w-2xl mx-auto px-4">
+                <p class="text-[9px] text-[#B2BBBB] leading-relaxed text-justify md:text-center font-light uppercase tracking-tighter">
+                    <span class="font-bold">LEGAL DISCLAIMER:</span> The information provided herein is a predictive estimate generated via financial engineering models and is intended for informational and educational purposes only. These projections are subject to inherent market volatility, data limitations, and unforeseen geopolitical variables. This platform makes no warranties, express or implied, regarding the absolute accuracy, completeness, or reliability of the forecasted values. Any financial or commercial decisions made based on this information are at the sole risk and discretion of the user. In no event shall this platform, its developers, or affiliates be liable for any direct, indirect, incidental, or consequential losses, damages, or legal claims—including but not limited to financial loss, lost profits, or litigation—arising from reliance upon these estimates. This is NOT an official government notification or an authorized oil company price announcement.
+                </p>
+            </div>
         </footer>
     </div>
 
