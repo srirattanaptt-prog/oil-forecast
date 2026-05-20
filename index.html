@@ -1,172 +1,165 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2870
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Price Forecast Dashboard | All Parameters Model</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&display=swap');
+        body { font-family: 'Chakra Petch', sans-serif; background-color: #0b0f1a; color: #e2e8f0; }
+        .glass { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .gradient-text { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="min-h-screen pb-10">
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="th">\
-<head>\
-    <meta charset="UTF-8">\
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
-    <title>Oil Price Forecast Dashboard | All Parameters Model</title>\
-    <script src="https://cdn.tailwindcss.com"></script>\
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>\
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>\
-    <style>\
-        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&display=swap');\
-        body \{ font-family: 'Chakra Petch', sans-serif; background-color: #0b0f1a; color: #e2e8f0; \}\
-        .glass \{ background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); \}\
-        .gradient-text \{ background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; \}\
-    </style>\
-</head>\
-<body class="min-h-screen pb-10">\
-\
-    <!-- Navbar -->\
-    <nav class="border-b border-slate-800 p-4 mb-6 glass sticky top-0 z-50">\
-        <div class="max-w-6xl mx-auto flex justify-between items-center">\
-            <div class="flex items-center gap-2">\
-                <div class="bg-blue-600 p-2 rounded-lg">\
-                    <i class="fas fa-chart-line text-white"></i>\
-                </div>\
-                <span class="text-xl font-bold tracking-tight">TH OIL <span class="gradient-text">FORECASTER</span></span>\
-            </div>\
-            <div class="text-xs md:text-sm text-slate-400 text-right">\
-                <p>Data Date: 20 May 2026</p>\
-                <p class="text-blue-400">Model: All Parameters v3.0</p>\
-            </div>\
-        </div>\
-    </nav>\
-\
-    <main class="max-w-6xl mx-auto px-4">\
-        \
-        <!-- Top Stats Row -->\
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">\
-            <div class="glass rounded-2xl p-5">\
-                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Brent Crude</p>\
-                <h3 class="text-2xl font-bold">$111.02</h3>\
-                <p class="text-xs text-slate-400 mt-1">3,632.57 THB/Bbl</p>\
-            </div>\
-            <div class="glass rounded-2xl p-5 border-l-4 border-blue-500">\
-                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">USD / THB</p>\
-                <h3 class="text-2xl font-bold">32.72</h3>\
-                <p class="text-xs text-blue-400 mt-1"><i class="fas fa-minus mr-1"></i> Stable</p>\
-            </div>\
-            <div class="glass rounded-2xl p-5">\
-                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">95 Crack Spread</p>\
-                <h3 class="text-2xl font-bold text-blue-400">$19.98</h3>\
-                <p class="text-xs text-slate-400 mt-1">Mogas 95 - Brent</p>\
-            </div>\
-            <div class="glass rounded-2xl p-5 border-l-4 border-purple-500">\
-                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Refinery Margin</p>\
-                <h3 class="text-2xl font-bold text-purple-400">$2.29</h3>\
-                <p class="text-xs text-slate-400 mt-1">3-Day Smoothed</p>\
-            </div>\
-        </div>\
-\
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">\
-            \
-            <!-- Price Forecast Table -->\
-            <div class="lg:col-span-2">\
-                <div class="glass rounded-3xl overflow-hidden shadow-2xl">\
-                    <div class="p-6 border-b border-slate-800 bg-slate-800/30 flex justify-between items-center">\
-                        <h2 class="text-xl font-bold flex items-center gap-2">\
-                            <i class="fas fa-calendar-day text-blue-500"></i>\
-                            \uc0\u3611 \u3619 \u3632 \u3617 \u3634 \u3603 \u3585 \u3634 \u3619 \u3614 \u3619 \u3640 \u3656 \u3591 \u3609 \u3637 \u3657  (21 \u3614 .\u3588 . 26)\
-                        </h2>\
-                        <span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-bold border border-green-500/20">\
-                            Confidence: 94.2%\
-                        </span>\
-                    </div>\
-                    <div class="overflow-x-auto">\
-                        <table class="w-full text-left">\
-                            <thead class="text-slate-500 text-sm uppercase bg-slate-900/50">\
-                                <tr>\
-                                    <th class="px-6 py-4">\uc0\u3612 \u3621 \u3636 \u3605 \u3616 \u3633 \u3603 \u3601 \u3660 </th>\
-                                    <th class="px-6 py-4">\uc0\u3611 \u3633 \u3592 \u3592 \u3640 \u3610 \u3633 \u3609 </th>\
-                                    <th class="px-6 py-4 text-blue-400 font-bold">\uc0\u3614 \u3618 \u3634 \u3585 \u3619 \u3603 \u3660 </th>\
-                                    <th class="px-6 py-4 text-center">\uc0\u3626 \u3656 \u3623 \u3609 \u3605 \u3656 \u3634 \u3591 </th>\
-                                </tr>\
-                            </thead>\
-                            <tbody class="divide-y divide-slate-800">\
-                                <tr class="hover:bg-blue-500/5 transition">\
-                                    <td class="px-6 py-5 font-semibold">Diesel B7</td>\
-                                    <td class="px-6 py-5">42.20</td>\
-                                    <td class="px-6 py-5 text-xl font-bold text-white">41.60</td>\
-                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>\
-                                </tr>\
-                                <tr class="hover:bg-blue-500/5 transition text-blue-50">\
-                                    <td class="px-6 py-5 font-semibold">Gasohol 95</td>\
-                                    <td class="px-6 py-5">44.90</td>\
-                                    <td class="px-6 py-5 text-xl font-bold text-white">44.30</td>\
-                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>\
-                                </tr>\
-                                <tr class="hover:bg-blue-500/5 transition text-blue-50">\
-                                    <td class="px-6 py-5 font-semibold">Gasohol 91</td>\
-                                    <td class="px-6 py-5">44.53</td>\
-                                    <td class="px-6 py-5 text-xl font-bold text-white">43.93</td>\
-                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>\
-                                </tr>\
-                                <tr class="hover:bg-blue-500/5 transition text-blue-50">\
-                                    <td class="px-6 py-5 font-semibold">Gasohol E20</td>\
-                                    <td class="px-6 py-5">37.90</td>\
-                                    <td class="px-6 py-5 text-xl font-bold text-white">37.30</td>\
-                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>\
-                                </tr>\
-                            </tbody>\
-                        </table>\
-                    </div>\
-                </div>\
-            </div>\
-\
-            <!-- Side Strategy Panel -->\
-            <div class="space-y-6">\
-                <!-- Action Card -->\
-                <div class="glass rounded-3xl p-6 border border-green-500/30 bg-green-500/5 shadow-[0_0_20px_rgba(34,197,94,0.1)]">\
-                    <div class="flex items-center gap-3 mb-4">\
-                        <div class="bg-green-500 rounded-full p-2">\
-                            <i class="fas fa-lightbulb text-black"></i>\
-                        </div>\
-                        <h3 class="text-xl font-bold text-green-400">Tank Strategy</h3>\
-                    </div>\
-                    <div class="bg-green-500 text-black font-bold text-center py-2 rounded-xl mb-4">\
-                        LOW STOCK RECOMMENDED\
-                    </div>\
-                    <p class="text-sm leading-relaxed text-slate-300">\
-                        \uc0\u3650 \u3617 \u3648 \u3604 \u3621 \u3614 \u3618 \u3634 \u3585 \u3619 \u3603 \u3660 \u3614 \u3610 \u3585 \u3634 \u3619 \u3611 \u3619 \u3633 \u3610 \u3600 \u3634 \u3609 \u3586 \u3629 \u3591 \u3605 \u3657 \u3609 \u3607 \u3640 \u3609 \u3627 \u3609 \u3657 \u3634 \u3650 \u3619 \u3591 \u3585 \u3621 \u3633 \u3656 \u3609  <span class="font-bold text-white">\u3649 \u3609 \u3632 \u3609 \u3635 \u3594 \u3632 \u3621 \u3629 \u3585 \u3634 \u3619 \u3648 \u3605 \u3636 \u3617 \u3609 \u3657 \u3635 \u3617 \u3633 \u3609 </span> \u3648 \u3586 \u3657 \u3634 \u3588 \u3621 \u3633 \u3591 \u3607 \u3640 \u3585 \u3611 \u3619 \u3632 \u3648 \u3616 \u3607  \u3648 \u3614 \u3639 \u3656 \u3629 \u3619 \u3629 \u3619 \u3633 \u3610 \u3605 \u3657 \u3609 \u3607 \u3640 \u3609 \u3651 \u3627 \u3617 \u3656 \u3607 \u3637 \u3656 \u3611 \u3619 \u3632 \u3627 \u3618 \u3633 \u3604 \u3652 \u3604 \u3657  0.60 \u3610 \u3634 \u3607 /\u3621 \u3636 \u3605 \u3619  \u3651 \u3609 \u3623 \u3633 \u3609 \u3614 \u3619 \u3640 \u3656 \u3591 \u3609 \u3637 \u3657 \
-                    </p>\
-                </div>\
-\
-                <!-- Analysis Summary -->\
-                <div class="glass rounded-3xl p-6">\
-                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-300">\
-                        <i class="fas fa-microchip text-purple-500 text-sm"></i> Analysis Insight\
-                    </h3>\
-                    <ul class="space-y-4">\
-                        <li class="flex justify-between text-sm border-b border-slate-800 pb-2">\
-                            <span class="text-slate-500">Mogas Parity</span>\
-                            <span class="font-mono text-blue-400">Strong Bearish</span>\
-                        </li>\
-                        <li class="flex justify-between text-sm border-b border-slate-800 pb-2">\
-                            <span class="text-slate-500">Oil Fund Cap</span>\
-                            <span class="font-mono">Locked @ -2.23</span>\
-                        </li>\
-                        <li class="flex justify-between text-sm">\
-                            <span class="text-slate-500">Marketing Margin</span>\
-                            <span class="font-mono">2.40 THB/L</span>\
-                        </li>\
-                    </ul>\
-                </div>\
-            </div>\
-        </div>\
-\
-        <!-- Footnote -->\
-        <footer class="mt-12 text-center text-slate-600 text-xs">\
-            <p>\'a9 2026 Financial Engineering Automated System | Powered by All Parameters Model</p>\
-            <p>\uc0\u3619 \u3634 \u3588 \u3634 \u3609 \u3657 \u3635 \u3617 \u3633 \u3609 \u3605 \u3621 \u3634 \u3604 \u3650 \u3621 \u3585 \u3629 \u3657 \u3634 \u3591 \u3629 \u3636 \u3591 \u3592 \u3634 \u3585  Platts Singapore & NYMEX</p>\
-        </footer>\
-\
-    </main>\
-</body>\
-</html>}
+    <!-- Navbar -->
+    <nav class="border-b border-slate-800 p-4 mb-6 glass sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-blue-600 p-2 rounded-lg">
+                    <i class="fas fa-chart-line text-white"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">TH OIL <span class="gradient-text">FORECASTER</span></span>
+            </div>
+            <div class="text-xs md:text-sm text-slate-400 text-right">
+                <p>Data Date: 20 May 2026</p>
+                <p class="text-blue-400">Model: All Parameters v3.0</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4">
+        
+        <!-- Top Stats Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="glass rounded-2xl p-5">
+                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Brent Crude</p>
+                <h3 class="text-2xl font-bold">$111.02</h3>
+                <p class="text-xs text-slate-400 mt-1">3,632.57 THB/Bbl</p>
+            </div>
+            <div class="glass rounded-2xl p-5 border-l-4 border-blue-500">
+                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">USD / THB</p>
+                <h3 class="text-2xl font-bold">32.72</h3>
+                <p class="text-xs text-blue-400 mt-1"><i class="fas fa-minus mr-1"></i> Stable</p>
+            </div>
+            <div class="glass rounded-2xl p-5">
+                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">95 Crack Spread</p>
+                <h3 class="text-2xl font-bold text-blue-400">$19.98</h3>
+                <p class="text-xs text-slate-400 mt-1">Mogas 95 - Brent</p>
+            </div>
+            <div class="glass rounded-2xl p-5 border-l-4 border-purple-500">
+                <p class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Refinery Margin</p>
+                <h3 class="text-2xl font-bold text-purple-400">$2.29</h3>
+                <p class="text-xs text-slate-400 mt-1">3-Day Smoothed</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Price Forecast Table -->
+            <div class="lg:col-span-2">
+                <div class="glass rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="p-6 border-b border-slate-800 bg-slate-800/30 flex justify-between items-center">
+                        <h2 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fas fa-calendar-day text-blue-500"></i>
+                            ประมาณการพรุ่งนี้ (21 พ.ค. 26)
+                        </h2>
+                        <span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-bold border border-green-500/20">
+                            Confidence: 94.2%
+                        </span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="text-slate-500 text-sm uppercase bg-slate-900/50">
+                                <tr>
+                                    <th class="px-6 py-4">ผลิตภัณฑ์</th>
+                                    <th class="px-6 py-4">ปัจจุบัน</th>
+                                    <th class="px-6 py-4 text-blue-400 font-bold">พยากรณ์</th>
+                                    <th class="px-6 py-4 text-center">ส่วนต่าง</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr class="hover:bg-blue-500/5 transition">
+                                    <td class="px-6 py-5 font-semibold">Diesel B7</td>
+                                    <td class="px-6 py-5">42.20</td>
+                                    <td class="px-6 py-5 text-xl font-bold text-white">41.60</td>
+                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>
+                                </tr>
+                                <tr class="hover:bg-blue-500/5 transition text-blue-50">
+                                    <td class="px-6 py-5 font-semibold">Gasohol 95</td>
+                                    <td class="px-6 py-5">44.90</td>
+                                    <td class="px-6 py-5 text-xl font-bold text-white">44.30</td>
+                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>
+                                </tr>
+                                <tr class="hover:bg-blue-500/5 transition text-blue-50">
+                                    <td class="px-6 py-5 font-semibold">Gasohol 91</td>
+                                    <td class="px-6 py-5">44.53</td>
+                                    <td class="px-6 py-5 text-xl font-bold text-white">43.93</td>
+                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>
+                                </tr>
+                                <tr class="hover:bg-blue-500/5 transition text-blue-50">
+                                    <td class="px-6 py-5 font-semibold">Gasohol E20</td>
+                                    <td class="px-6 py-5">37.90</td>
+                                    <td class="px-6 py-5 text-xl font-bold text-white">37.30</td>
+                                    <td class="px-6 py-5 text-center font-bold text-green-400">-0.60 <i class="fas fa-caret-down"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Strategy Panel -->
+            <div class="space-y-6">
+                <!-- Action Card -->
+                <div class="glass rounded-3xl p-6 border border-green-500/30 bg-green-500/5 shadow-[0_0_20px_rgba(34,197,94,0.1)]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-500 rounded-full p-2">
+                            <i class="fas fa-lightbulb text-black"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-400">Tank Strategy</h3>
+                    </div>
+                    <div class="bg-green-500 text-black font-bold text-center py-2 rounded-xl mb-4">
+                        LOW STOCK RECOMMENDED
+                    </div>
+                    <p class="text-sm leading-relaxed text-slate-300">
+                        โมเดลพยากรณ์พบการปรับฐานของต้นทุนหน้าโรงกลั่น <span class="font-bold text-white">แนะนำชะลอการเติมน้ำมัน</span> เข้าคลังทุกประเภท เพื่อรอรับต้นทุนใหม่ที่ประหยัดได้ 0.60 บาท/ลิตร ในวันพรุ่งนี้
+                    </p>
+                </div>
+
+                <!-- Analysis Summary -->
+                <div class="glass rounded-3xl p-6">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-300">
+                        <i class="fas fa-microchip text-purple-500 text-sm"></i> Analysis Insight
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex justify-between text-sm border-b border-slate-800 pb-2">
+                            <span class="text-slate-500">Mogas Parity</span>
+                            <span class="font-mono text-blue-400">Strong Bearish</span>
+                        </li>
+                        <li class="flex justify-between text-sm border-b border-slate-800 pb-2">
+                            <span class="text-slate-500">Oil Fund Cap</span>
+                            <span class="font-mono">Locked @ -2.23</span>
+                        </li>
+                        <li class="flex justify-between text-sm">
+                            <span class="text-slate-500">Marketing Margin</span>
+                            <span class="font-mono">2.40 THB/L</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footnote -->
+        <footer class="mt-12 text-center text-slate-600 text-xs">
+            <p>© 2026 Financial Engineering Automated System | Powered by All Parameters Model</p>
+            <p>ราคาน้ำมันตลาดโลกอ้างอิงจาก Platts Singapore & NYMEX</p>
+        </footer>
+
+    </main>
+</body>
+</html>
