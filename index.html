@@ -12,7 +12,7 @@
         
         body { 
             font-family: 'Inter', 'Noto Sans Thai', sans-serif; 
-            background-color: #F0F2F0; 
+            background-color: #F0F2F0; /* Soft Nordic Linen */
             color: #444B4D; 
             transition: all 0.4s ease;
             -webkit-font-smoothing: antialiased;
@@ -50,7 +50,7 @@
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
             <div>
                 <h1 class="text-3xl font-light tracking-tighter text-[#2F3535]">คาดการณ์ราคาน้ำมัน</h1>
-                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal">Updated 20 May 2569 | 18:18</p>
+                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal italic">Updated 20 May 2569 | 18:18</p>
             </div>
 
             <!-- Mode Switcher -->
@@ -80,7 +80,7 @@
                             <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="oil.f"></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1">ปัจจุบัน <span x-text="oil.p"></span></p>
+                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="oil.p"></span></p>
                             <p class="text-sage font-medium text-lg" x-text="oil.d"></p>
                         </div>
                     </div>
@@ -89,13 +89,13 @@
         </section>
 
         <!-- 2. ADVANCED MODE -->
-        <section x-show="mode === 'advanced'" x-transition:enter.duration.500ms x-cloak class="space-y-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <section x-show="mode === 'advanced'" x-transition:enter.duration.500ms x-cloak class="space-y-6 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <template x-for="stat in [
-                    {label: 'Brent Crude', val: '$111.02', sub: 'THB Rate: 32.72'},
-                    {label: 'THB / USD', val: '32.72', sub: 'Status: Stable'},
-                    {label: 'Refinery GRM', val: '74.93 ฿', sub: 'Calculated in THB', color: 'text-sage'},
-                    {label: 'Crack Spread', val: '$19.98', sub: '95 Level'}
+                    {label: 'Brent Crude', val: '$111.02', sub: 'Unit: USD'},
+                    {label: 'THB / USD', val: '32.72', sub: 'Rate: Stable'},
+                    {label: 'Refinery GRM', val: '2.29 ฿', sub: 'Unit: THB', color: 'text-sage'},
+                    {label: 'Crack Spread', val: '$19.98', sub: 'Mogas 95'}
                 ]">
                     <div class="nordic-card p-6">
                         <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-medium tracking-widest" x-text="stat.label"></p>
@@ -106,9 +106,9 @@
             </div>
             
             <div class="nordic-card p-8 bg-[#2F3535] text-[#F0F2F0]">
-                <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-medium text-center">Tank Strategy</h3>
-                <p class="text-lg font-light leading-relaxed text-center">
-                    "พรุ่งนี้ต้นทุนคาดว่าจะปรับลดลง แนะนำบริหารสต็อกในระดับ <span class="text-[#A3B18A] font-medium underline italic">LOW STOCK</span> เพื่อประสิทธิภาพสูงสุดในการจัดซื้อลอตใหม่"
+                <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-medium">Tank Strategy</h3>
+                <p class="text-lg font-light leading-relaxed">
+                    "ราคาวันพรุ่งนี้คาดว่าจะปรับลดลง แนะนำบริหารสต็อกในระดับ <span class="text-[#A3B18A] font-medium underline italic uppercase">Low Stock</span> เพื่อประสิทธิภาพสูงสุด"
                 </p>
             </div>
         </section>
@@ -121,7 +121,7 @@
                     <span class="text-slate-500 italic">Core: All-Parameters</span>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed font-light">
-                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>GRM_SMOOTH_THB:</span> <span class="text-[#98C379]">74.93</span></div>
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>REFINERY_GRM_THB:</span> <span class="text-[#98C379]">2.2900</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>BRENT_CRUDE_USD:</span> <span class="text-[#98C379]">111.02</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>OIL_FUND_DIFF:</span> <span class="text-[#E06C75]">-2.23</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>MARKETING_MARGIN:</span> <span class="text-[#98C379]">2.4000</span></div>
