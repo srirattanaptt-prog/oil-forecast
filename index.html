@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คาดการณ์ราคาน้ำมัน | Advance Dynamic Platform</title>
+    <title>คาดการณ์ราคาน้ำมัน | ADVANCE DYNAMIC PLATFORM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         [x-cloak] { display: none !important; }
         
@@ -47,25 +47,26 @@
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
         <!-- Header Section -->
-        <header class="flex flex-col items-center mb-12 gap-6 text-center">
+        <header class="flex flex-col items-center mb-12 gap-8 text-center">
             <div>
-                <h1 class="text-4xl font-semibold tracking-tight text-[#2F3535] mt-1 uppercase">คาดการณ์ <span class="font-light italic text-slate-500">ราคาน้ำมัน</span></h1>
-                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-bold italic">Updated 20 May 2569 | 18:18</p>
+                <!-- หัวข้อแบบน้ำหนักบาง ตัวชิด ไม่เข้ม -->
+                <h1 class="text-3xl font-light tracking-tighter text-[#2F3535]">คาดการณ์ราคาน้ำมัน</h1>
+                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal">Updated 20 May 2569 | 18:18</p>
             </div>
 
             <!-- Mode Switcher -->
             <div class="flex bg-[#E4E9E4] p-1.5 rounded-2xl w-full max-w-[320px] shadow-inner">
-                <button @click="mode = 'classic'" :class="mode === 'classic' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Classic</button>
-                <button @click="mode = 'advanced'" :class="mode === 'advanced' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Advanced</button>
-                <button @click="mode = 'nerd'" :class="mode === 'nerd' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Nerd</button>
+                <button @click="mode = 'classic'" :class="mode === 'classic' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-wider">Classic</button>
+                <button @click="mode = 'advanced'" :class="mode === 'advanced' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-wider">Advanced</button>
+                <button @click="mode = 'nerd'" :class="mode === 'nerd' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-wider">Nerd</button>
             </div>
         </header>
 
         <!-- 1. CLASSIC MODE -->
         <section x-show="mode === 'classic'" x-transition:enter.duration.500ms x-cloak class="space-y-4">
             <div class="nordic-card p-8 flex justify-between items-center border-b-4 border-[#A3B18A]">
-                <span class="text-sm font-medium text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
-                <span class="text-sage font-bold text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest text-center">คาดว่าปรับลดลง</span>
+                <span class="text-sm font-light text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
+                <span class="text-sage font-medium text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <template x-for="oil in [
@@ -76,12 +77,12 @@
                 ]">
                     <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-bold" x-text="oil.n"></p>
+                            <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.n"></p>
                             <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="oil.f"></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] text-[#B2BBBB] font-medium leading-none mb-1">ปัจจุบัน <span x-text="oil.p"></span></p>
-                            <p class="text-sage font-semibold text-lg" x-text="oil.d"></p>
+                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1">ปัจจุบัน <span x-text="oil.p"></span></p>
+                            <p class="text-sage font-medium text-lg" x-text="oil.d"></p>
                         </div>
                     </div>
                 </template>
@@ -90,25 +91,25 @@
 
         <!-- 2. ADVANCED MODE -->
         <section x-show="mode === 'advanced'" x-transition:enter.duration.500ms x-cloak class="space-y-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                 <template x-for="stat in [
                     {label: 'Brent Crude', val: '$111.02', sub: 'THB 3,632.57'},
-                    {label: 'THB / USD', val: '32.72', sub: 'สถานะ: ทรงตัว'},
+                    {label: 'THB / USD', val: '32.72', sub: 'Status: Stable'},
                     {label: 'Refinery GRM', val: '$2.29', sub: '3D-Smoothed', color: 'text-sage'},
-                    {label: 'Crack Spread', val: '$19.98', sub: 'Mogas 95 Level'}
+                    {label: 'Crack Spread', val: '$19.98', sub: '95 Level'}
                 ]">
-                    <div class="nordic-card p-6 text-center">
-                        <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-widest leading-tight" x-text="stat.label"></p>
-                        <p class="text-xl font-medium" :class="stat.color || 'text-[#444B4D]'" x-text="stat.val"></p>
+                    <div class="nordic-card p-6">
+                        <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-medium tracking-widest" x-text="stat.label"></p>
+                        <p class="text-xl font-light" :class="stat.color || 'text-[#444B4D]'" x-text="stat.val"></p>
                         <p class="text-[9px] text-[#B2BBBB] mt-1" x-text="stat.sub"></p>
                     </div>
                 </template>
             </div>
             
             <div class="nordic-card p-8 bg-[#2F3535] text-[#F0F2F0]">
-                <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-bold">กลยุทธ์การบริหารคลัง (Tank Strategy)</h3>
+                <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-medium">Tank Strategy</h3>
                 <p class="text-lg font-light leading-relaxed">
-                    "ราคาวันพรุ่งนี้มีแนวโน้มปรับลดลงตามโมเดลพยากรณ์ แนะนำให้บริหารสต็อกในระดับ <span class="text-[#A3B18A] font-bold italic underline">LOW STOCK</span> เพื่อรอรับน้ำมันลอตใหม่ในราคาต้นทุนที่ถูกลง"
+                    "พรุ่งนี้ต้นทุนคาดว่าจะปรับลดลง แนะนำบริหารสต็อกในระดับ <span class="text-[#A3B18A] font-medium underline italic">LOW STOCK</span> เพื่อประสิทธิภาพสูงสุดในการจัดซื้อลอตใหม่"
                 </p>
             </div>
         </section>
@@ -117,29 +118,29 @@
         <section x-show="mode === 'nerd'" x-transition:enter.duration.500ms x-cloak class="space-y-6 nerd-font">
             <div class="bg-[#282C34] rounded-3xl p-8 text-[#A9B7C6] overflow-x-auto shadow-xl border border-slate-700">
                 <div class="flex gap-4 mb-6 border-b border-[#3E4451] pb-3 text-[10px] uppercase tracking-widest">
-                    <span class="text-[#98C379] font-bold underline">● Predictive_Model_v3.0</span>
+                    <span class="text-[#98C379] font-medium">Predictive_Model_v3.0</span>
                     <span class="text-slate-500 italic">Core: All-Parameters</span>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed text-left font-light">
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>GRM_SMOOTHED:</span> <span class="text-[#98C379]">2.2900</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>BRENT_THB_TERM:</span> <span class="text-[#98C379]">3632.57</span></div>
-                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>OIL_FUND_DIFF:</span> <span class="text-[#E06C75] font-bold">-2.23</span></div>
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>OIL_FUND_DIFF:</span> <span class="text-[#E06C75]">-2.23</span></div>
                     <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>MARKETING_MARGIN:</span> <span class="text-[#98C379]">2.4000</span></div>
-                </div>
-                <div class="mt-8 pt-4 text-[10px] text-[#5C6370] italic leading-loose">
-                    LOG: Predictive delta based on 60D rolling average. Output confirm @ -0.60 THB/L.
                 </div>
             </div>
         </section>
 
         <!-- Footer & Legal Disclaimer -->
         <footer class="mt-20 text-center space-y-6">
-            <p class="text-[10px] uppercase tracking-[0.5em] text-[#B2BBBB] font-medium tracking-widest">Advance Dynamic Platform</p>
+            <!-- Footer Brand & Definition -->
+            <div class="space-y-2">
+                <p class="text-[11px] uppercase tracking-[0.4em] text-[#B2BBBB] font-normal">ADVANCE DYNAMIC PLATFORM</p>
+                <p class="text-[10px] text-[#B2BBBB] font-light opacity-80 uppercase tracking-wider italic">The Power Behind the PTT Dealer Station.</p>
+            </div>
             
-            <!-- Professional Legal Disclaimer -->
-            <div class="max-w-2xl mx-auto px-4">
+            <div class="max-w-2xl mx-auto px-4 pt-6 border-t border-[#E4E9E4]">
                 <p class="text-[9px] text-[#B2BBBB] leading-relaxed text-justify md:text-center font-light uppercase tracking-tighter">
-                    <span class="font-bold">LEGAL DISCLAIMER:</span> The information provided herein is a predictive estimate generated via financial engineering models and is intended for informational and educational purposes only. These projections are subject to inherent market volatility, data limitations, and unforeseen geopolitical variables. This platform makes no warranties, express or implied, regarding the absolute accuracy, completeness, or reliability of the forecasted values. Any financial or commercial decisions made based on this information are at the sole risk and discretion of the user. In no event shall this platform, its developers, or affiliates be liable for any direct, indirect, incidental, or consequential losses, damages, or legal claims—including but not limited to financial loss, lost profits, or litigation—arising from reliance upon these estimates. This is NOT an official government notification or an authorized oil company price announcement.
+                    <span class="font-medium">LEGAL DISCLAIMER:</span> The information provided herein is a predictive estimate generated via financial engineering models and is intended for informational and educational purposes only. These projections are subject to inherent market volatility, data limitations, and unforeseen geopolitical variables. This platform makes no warranties, express or implied, regarding the absolute accuracy, completeness, or reliability of the forecasted values. Any financial or commercial decisions made based on this information are at the sole risk and discretion of the user. In no event shall this platform, its developers, or affiliates be liable for any direct, indirect, incidental, or consequential losses, damages, or legal claims arising from reliance upon these estimates. NOT an official government or oil company announcement.
                 </p>
             </div>
         </footer>
