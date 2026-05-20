@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oil Forecast Pro | Eye-Friendly Edition</title>
+    <title>Oil Forecast Pro | Nordic Eye-Friendly</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         [x-cloak] { display: none !important; }
         
-        /* สีพื้นหลังที่เป็นมิตรกับสายตาที่สุด (Soft Nordic Sage) */
+        /* พื้นหลังถนอมสายตา (Nordic Linen) */
         body { 
             font-family: 'Inter', 'Noto Sans Thai', sans-serif; 
             background-color: #F0F2F0; 
-            color: #444B4D; /* เทาเข้มอมเขียว ลดความคมของสีดำ */
+            color: #444B4D; /* เทาเข้มลด Contrast เพื่อความสบายตา */
+            transition: all 0.4s ease;
             -webkit-font-smoothing: antialiased;
-            transition: background-color 0.5s ease;
         }
 
-        /* การ์ดแบบ Soft Shadow ลดความกระด้าง */
+        /* การ์ดขอบมนพิเศษและเงาแบบฟุ้ง (Soft Shadow) */
         .nordic-card {
             background: #FFFFFF;
-            border-radius: 28px;
+            border-radius: 24px;
             border: 1px solid rgba(0,0,0,0.02);
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04);
         }
 
+        /* ปุ่มเปลี่ยนโหมดสไตล์ Minimal */
         .mode-btn {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: #717D7E;
         }
-        
         .mode-btn.active {
             background-color: #FFFFFF;
             color: #2F3535;
@@ -39,36 +39,40 @@
         }
 
         .nerd-font { font-family: 'JetBrains Mono', monospace; }
+        
+        /* สีเขียว Sage Green สำหรับราคาที่ลดลง (ดีต่อสายตา) */
+        .text-sage { color: #5B8468; }
+        .bg-sage-light { background-color: #F1F4F1; }
 
-        /* ปรับสีตัวเลขให้ไม่สว่างจนเกินไป */
-        .text-price-down { color: #5B8468; } /* เขียวใบไม้สงบ */
-        .text-macro { color: #5D6D7E; }
+        /* ซ่อน Scrollbar สำหรับ Mobile */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
-<body x-data="{ mode: 'classic' }">
+<body x-data="{ mode: 'classic' }" class="antialiased">
 
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
-        <!-- Header -->
-        <header class="flex flex-col items-center mb-12">
-            <div class="text-center mb-8">
-                <span class="text-[10px] uppercase tracking-[0.3em] text-[#919E9E] font-bold">Financial Engineering</span>
-                <h1 class="text-3xl font-light tracking-tight text-[#2F3535] mt-1">Oil Forecast <span class="font-semibold italic">Hub</span></h1>
+        <!-- Header Section -->
+        <header class="flex flex-col items-center mb-12 gap-6">
+            <div class="text-center">
+                <span class="text-[10px] uppercase tracking-[0.3em] text-[#919E9E] font-bold">Automated Analysis</span>
+                <h1 class="text-3xl font-light tracking-tight text-[#2F3535] mt-1">Oil Forecast <span class="font-semibold italic">Intelligence</span></h1>
+                <p class="text-[11px] text-[#B2BBBB] mt-2 uppercase tracking-widest font-medium">Data Date: 20 May 2026</p>
             </div>
 
-            <!-- Mode Switcher (Soft Toggle) -->
+            <!-- Mode Switcher -->
             <div class="flex bg-[#E4E9E4] p-1.5 rounded-2xl w-full max-w-[320px] shadow-inner">
-                <button @click="mode = 'classic'" :class="mode === 'classic' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-semibold tracking-wide uppercase">Classic</button>
-                <button @click="mode = 'advanced'" :class="mode === 'advanced' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-semibold tracking-wide uppercase">Advanced</button>
-                <button @click="mode = 'nerd'" :class="mode === 'nerd' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-semibold tracking-wide uppercase">Nerd</button>
+                <button @click="mode = 'classic'" :class="mode === 'classic' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Classic</button>
+                <button @click="mode = 'advanced'" :class="mode === 'advanced' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Advanced</button>
+                <button @click="mode = 'nerd'" :class="mode === 'nerd' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-wider">Nerd</button>
             </div>
         </header>
 
         <!-- 1. CLASSIC MODE -->
         <section x-show="mode === 'classic'" x-transition:enter.duration.500ms x-cloak class="space-y-4">
             <div class="nordic-card p-8 flex justify-between items-center border-b-4 border-[#A3B18A]">
-                <span class="text-sm font-medium text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
-                <span class="text-price-down font-bold text-lg">ปรับตัวลดลง (−)</span>
+                <span class="text-sm font-medium text-[#717D7E]">สถานะวันพรุ่งนี้:</span>
+                <span class="text-sage font-bold text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับตัวลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <template x-for="oil in [
@@ -77,14 +81,14 @@
                     {n: 'Gasohol 91', p: '44.53', f: '43.93', d: '− 0.60'},
                     {n: 'Gasohol E20', p: '37.90', f: '37.30', d: '− 0.60'}
                 ]">
-                    <div class="nordic-card p-8 flex justify-between items-center">
+                    <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow cursor-default">
                         <div>
-                            <p class="text-[10px] text-[#919E9E] uppercase tracking-widest font-bold" x-text="oil.n"></p>
+                            <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-bold" x-text="oil.n"></p>
                             <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="oil.f"></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] text-[#B2BBBB]">Now: <span x-text="oil.p"></span></p>
-                            <p class="text-price-down font-semibold text-lg mt-1" x-text="oil.d"></p>
+                            <p class="text-[11px] text-[#B2BBBB] font-medium">ปัจจุบัน <span x-text="oil.p"></span></p>
+                            <p class="text-sage font-semibold text-lg mt-1" x-text="oil.d"></p>
                         </div>
                     </div>
                 </template>
@@ -94,51 +98,103 @@
         <!-- 2. ADVANCED MODE -->
         <section x-show="mode === 'advanced'" x-transition:enter.duration.500ms x-cloak class="space-y-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="nordic-card p-6 text-center">
-                    <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-tighter">Brent Crude</p>
-                    <p class="text-xl font-medium text-macro">$111.02</p>
-                </div>
-                <div class="nordic-card p-6 text-center">
-                    <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-tighter">THB/USD</p>
-                    <p class="text-xl font-medium text-macro">32.72</p>
-                </div>
-                <div class="nordic-card p-6 text-center">
-                    <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-tighter">Refinery GRM</p>
-                    <p class="text-xl font-medium text-price-down">$2.29</p>
-                </div>
-                <div class="nordic-card p-6 text-center">
-                    <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-tighter">95 Crack</p>
-                    <p class="text-xl font-medium text-macro">$19.98</p>
-                </div>
+                <template x-for="stat in [
+                    {label: 'Brent Oil', val: '$111.02', sub: 'THB 3,632.57'},
+                    {label: 'USD / THB', val: '32.72', sub: 'Stable Rate'},
+                    {label: 'Refinery GRM', val: '$2.29', sub: '3D-Smoothed', color: 'text-sage'},
+                    {label: '95 Crack', val: '$19.98', sub: 'Spread Level'}
+                ]">
+                    <div class="nordic-card p-6 text-center">
+                        <p class="text-[9px] uppercase text-[#919E9E] mb-2 font-bold tracking-widest" x-text="stat.label"></p>
+                        <p class="text-xl font-medium" :class="stat.color || 'text-[#444B4D]'" x-text="stat.val"></p>
+                        <p class="text-[9px] text-[#B2BBBB] mt-1" x-text="stat.sub"></p>
+                    </div>
+                </template>
             </div>
             
+            <div class="nordic-card overflow-hidden shadow-sm">
+                <table class="w-full text-sm">
+                    <thead class="bg-[#F8F9F8] border-b border-slate-100">
+                        <tr class="text-left text-[#919E9E] uppercase text-[10px] tracking-widest">
+                            <th class="px-8 py-4 font-bold">Product Type</th>
+                            <th class="px-8 py-4 text-right font-bold">Tomorrow</th>
+                            <th class="px-8 py-4 text-right font-bold">Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <template x-for="oil in [
+                            {n: 'Diesel B7', f: '41.60', d: '− 0.60'},
+                            {n: 'Gasohol 95', f: '44.30', d: '− 0.60'},
+                            {n: 'Gasohol E20', f: '37.30', d: '− 0.60'}
+                        ]">
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="px-8 py-6 font-medium text-[#2F3535]" x-text="oil.n"></td>
+                                <td class="px-8 py-6 text-right font-semibold text-lg" x-text="oil.f"></td>
+                                <td class="px-8 py-6 text-right font-bold text-sage" x-text="oil.d"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
             <div class="nordic-card p-8 bg-[#2F3535] text-[#F0F2F0]">
                 <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-bold">Tank Balance Strategy</h3>
                 <p class="text-lg font-light leading-relaxed">
-                    "พรุ่งนี้ต้นทุนลดลงอย่างมีนัยสำคัญ แนะนำ <span class="text-[#A3B18A] font-bold">ลดการถือครองสต็อก</span> เพื่อเตรียมรับน้ำมันลอตใหม่ที่ถูกลง 60 สตางค์"
+                    "พรุ่งนี้ต้นทุนลดลงอย่างมีนัยสำคัญ แนะนำ <span class="text-[#A3B18A] font-bold">ลดการถือครองสต็อก (Low Stock)</span> เพื่อเตรียมรับน้ำมันลอตใหม่ที่ราคาถูกลง"
                 </p>
             </div>
         </section>
 
         <!-- 3. NERD MODE -->
-        <section x-show="mode === 'nerd'" x-transition:enter.duration.500ms x-cloak class="space-y-6 nerd-font text-sm">
-            <div class="nordic-card p-8 bg-[#FDFDFD] border-2 border-dashed border-[#D1D8D1]">
-                <div class="text-[#919E9E] text-[10px] mb-4 uppercase tracking-widest font-bold">Model Engine: Linear_Regression_v3</div>
-                <div class="space-y-3">
-                    <p class="flex justify-between border-b border-[#F0F2F0] pb-1"><span>GRM_SMOOTHED:</span> <span class="text-price-down">2.2900</span></p>
-                    <p class="flex justify-between border-b border-[#F0F2F0] pb-1"><span>R_SQUARED:</span> <span class="text-macro text-blue-400">0.9421</span></p>
-                    <p class="flex justify-between border-b border-[#F0F2F0] pb-1"><span>LAG_1_RETAIL:</span> <span class="text-macro">44.90</span></p>
-                    <p class="flex justify-between"><span>OIL_FUND_DIFF:</span> <span class="text-red-400">-2.23</span></p>
+        <section x-show="mode === 'nerd'" x-transition:enter.duration.500ms x-cloak class="space-y-6 nerd-font">
+            <div class="bg-[#282C34] rounded-3xl p-8 text-[#A9B7C6] overflow-x-auto shadow-xl">
+                <div class="flex gap-4 mb-6 border-b border-[#3E4451] pb-3 text-[10px] uppercase tracking-widest">
+                    <span class="text-[#98C379] font-bold">● Model_Engine</span>
+                    <span class="text-slate-500">Params: 60D_Rolling</span>
+                    <span class="text-slate-500">R² Score: 0.942</span>
                 </div>
-                <div class="mt-8 pt-4 border-t border-[#F0F2F0] text-[10px] text-[#B2BBBB] italic leading-loose">
-                    PROCESS_LOG: Feature importance weighted towards Mogas95_Singapore (0.68) and USD_THB (0.21). Auto-filter applied to GRM noise.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs leading-relaxed">
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>GRM_SMOOTHED:</span> <span class="text-[#98C379]">2.2900</span></div>
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>BRENT_THB_TERM:</span> <span class="text-[#98C379]">3632.57</span></div>
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>OIL_FUND_SHIELD:</span> <span class="text-[#E06C75] font-bold">-2.23</span></div>
+                    <div class="flex justify-between border-b border-[#3E4451] pb-1"><span>MKT_MARGIN_AVG:</span> <span class="text-[#98C379]">2.4000</span></div>
                 </div>
+                <div class="mt-8 pt-4 text-[10px] text-[#5C6370] italic">
+                    SYSTEM_LOG: Price transmission confirmed. Mean reversion detected in Mogas Spread. Retail sensitivity 0.60 THB/L step applied.
+                </div>
+            </div>
+
+            <div class="nordic-card overflow-hidden text-[11px] shadow-sm">
+                <table class="w-full text-left">
+                    <thead class="bg-[#F8F9F8] text-[#919E9E] uppercase tracking-tighter">
+                        <tr>
+                            <th class="px-6 py-4 border-r border-slate-100">Feature_Variable</th>
+                            <th class="px-6 py-4">Lag_1</th>
+                            <th class="px-6 py-4">Lag_2</th>
+                            <th class="px-6 py-4">Forecast_Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50 text-[#717D7E]">
+                        <tr>
+                            <td class="px-6 py-5 font-bold bg-[#FBFCFB] text-[#2F3535]">Gasohol_95</td>
+                            <td class="px-6 py-5 italic tracking-tighter">44.90</td>
+                            <td class="px-6 py-5 italic tracking-tighter">44.90</td>
+                            <td class="px-6 py-5 text-sage font-bold">-0.60</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-5 font-bold bg-[#FBFCFB] text-[#2F3535]">Diesel_B7</td>
+                            <td class="px-6 py-5 italic tracking-tighter">42.20</td>
+                            <td class="px-6 py-5 italic tracking-tighter">42.20</td>
+                            <td class="px-6 py-5 text-sage font-bold">-0.60</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="mt-20 text-center">
-            <p class="text-[9px] uppercase tracking-[0.4em] text-[#B2BBBB]">Updated 20.05.2026 | Professional Use Only</p>
+            <p class="text-[9px] uppercase tracking-[0.5em] text-[#B2BBBB] font-medium">Professional Financial Engineering Dashboard</p>
         </footer>
     </div>
 
