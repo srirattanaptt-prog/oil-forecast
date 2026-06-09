@@ -42,8 +42,11 @@
         ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
-<body x-data="{ mode: 'classic' }" class="antialiased">
-
+<body x-data="{ mode: 'classic', oilList: [] 
+}" x-init="fetch('https://script.google.com/macros/s/AKfycbw3VFbRvlAhbJIgYXM3mFoNnSGvf2zI-i1YeqWXlpQr8O6NJ9SyCJFBA1rLGi1GTd9a0w/exec')
+            .then(res => res.json())
+            .then(data => oilList = data)" 
+class="antialiased">
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
         <!-- Header Section -->
