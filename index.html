@@ -49,14 +49,37 @@
 class="antialiased">
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
-        <!-- Header Section -->
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
             <div>
                 <h1 class="text-3xl font-light tracking-tighter text-[#2F3535]">คาดการณ์ราคาน้ำมัน</h1>
                 <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal italic">Updated 20 May 2569 | 18:18</p>
+                
+                <div x-data="{
+                    get status() {
+                        let updateItem = oilList.find(o => o.name === 'latest_update_date');
+                        if (!updateItem) return { color: 'bg-gray-400', text: 'Connecting...' };
+                        
+                        let lastUpdate = new Date(updateItem.current_price);
+                        let today = new Date();
+                        let currentHour = today.getHours();
+                        
+                        let isSameDay = lastUpdate.toDateString() === today.toDateString();
+                        
+                        if (isSameDay) {
+                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 วันนี้อัปเดตแล้ว
+                        } else {
+                            if (currentHour >= 12 || currentHour < 8) {
+                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 ไม่อัปเดต (เลยเที่ยงวัน/หลังเที่ยงคืน)
+                            }
+                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 กำลังเช็คช่วง 8 โมงเช้า - เที่ยง
+                        }
+                    }
+                }" class="flex items-center gap-1.5 justify-center mt-3 bg-white/60 px-3 py-1 rounded-full border border-black/5 w-fit mx-auto shadow-sm">
+                    <span :class="status.color" class="w-2 h-2 rounded-full inline-block animate-pulse"></span>
+                    <span class="text-[10px] text-[#717D7E] font-medium tracking-wider uppercase" x-text="status.text"></span>
+                </div>
             </div>
 
-            <!-- Mode Switcher -->
             <div class="flex bg-[#E4E9E4] p-1.5 rounded-2xl w-full max-w-[320px] shadow-inner">
                 <button @click="mode = 'classic'" :class="mode === 'classic' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-wider">Classic</button>
                 <button @click="mode = 'advanced'" :class="mode === 'advanced' ? 'active' : ''" class="mode-btn flex-1 py-2.5 rounded-xl text-[11px] font-medium uppercase tracking-wider">Advanced</button>
@@ -64,14 +87,13 @@ class="antialiased">
             </div>
         </header>
 
-        <!-- 1. CLASSIC MODE -->
         <section x-show="mode === 'classic'" x-transition:enter.duration.500ms x-cloak class="space-y-4">
             <div class="nordic-card p-8 flex justify-between items-center border-b-4 border-[#A3B18A]">
                 <span class="text-sm font-light text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
                 <span class="text-sage font-medium text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
-                <template x-for="oil in oilList">
+                <template x-for="oil in oilList.filter(o => o.name !== 'latest_update_date')">
                     <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow">
                         <div>
                             <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.name"></p>
@@ -81,12 +103,11 @@ class="antialiased">
                             <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="Number(oil.current_price).toFixed(2)"></span></p>
                             <p class="text-sage font-medium text-lg" x-text="Number(oil.diff).toFixed(2)"></p>
                         </div>
-                        </div>
-                    </template>
+                    </div>
+                </template>
             </div>
         </section>
 
-        <!-- 2. ADVANCED MODE -->
         <section x-show="mode === 'advanced'" x-transition:enter.duration.500ms x-cloak class="space-y-6 text-center">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <template x-for="stat in [
@@ -111,7 +132,6 @@ class="antialiased">
             </div>
         </section>
 
-        <!-- 3. NERD MODE -->
         <section x-show="mode === 'nerd'" x-transition:enter.duration.500ms x-cloak class="space-y-6 nerd-font">
             <div class="bg-[#282C34] rounded-3xl p-8 text-[#A9B7C6] overflow-x-auto shadow-xl border border-slate-700 text-left">
                 <div class="flex gap-4 mb-6 border-b border-[#3E4451] pb-3 text-[10px] uppercase tracking-widest">
@@ -127,7 +147,6 @@ class="antialiased">
             </div>
         </section>
 
-        <!-- Footer & Legal Disclaimer -->
         <footer class="mt-20 text-center space-y-6">
             <div class="space-y-2">
                 <p class="text-[11px] uppercase tracking-[0.4em] text-[#B2BBBB] font-normal">ADVANCE DYNAMIC PLATFORM</p>
