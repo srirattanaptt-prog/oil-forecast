@@ -56,12 +56,32 @@ class="antialiased">
                 
                 <div x-data="{
                     get status() {
-                        let updateItem = oilList.find(o => o.name === 'latest_update_date');
-                        if (!updateItem) return { color: 'bg-gray-400', text: 'Connecting...' };
+                        if (oilList.length === 0) return { color: 'bg-gray-400', text: 'Connecting...' };
                         
-                        let rawDateStr = updateItem.current_price.toString().trim();
-                        // เผื่อกรณีในชีตส่งเลขปี พ.ศ. (2569) เข้ามา ให้แปลงเป็น ค.ศ. (2026) อัตโนมัติในฝั่งเว็บ
-                        if(rawDateStr.includes('2569')) {
+                        // ค้นหาแถวระบบตรวจสอบวันที่จากทุกแถวใน oilList
+                        let updateItem = oilList.find(o => o.name && o.name.toString().trim() === 'latest_update_date');
+                        let rawDateStr = '';
+                        
+                        if (updateItem && updateItem.current_price) {
+                            rawDateStr = updateItem.current_price.toString().trim();
+                        }
+                        
+                        // ถ้าหาในตัวแปรชื่อไม่เจอจริงๆ ให้ลองมองหาแถวสุดท้ายที่มีโครงสร้างวันที่ ค.ศ.
+                        if (!rawDateStr) {
+                            for (let i = oilList.length - 1; i >= 0; i--) {
+                                let val = (oilList[i].current_price || '').toString();
+                                if (val.includes('-') && val.split('-').length === 3) {
+                                    rawDateStr = val;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // ถ้าพยายามหาแล้วไม่มีข้อมูลเลย ให้คงสถานะ Connecting ไว้ก่อน
+                        if (!rawDateStr || rawDateStr === '0') return { color: 'bg-gray-400', text: 'Connecting...' };
+                        
+                        // รองรับกรณีในชีตส่งปี พ.ศ. 2569 เข้ามา ให้แปลงเป็น ค.ศ. 2026 อัตโนมัติในฝั่งเบราว์เซอร์
+                        if (rawDateStr.includes('2569')) {
                             rawDateStr = rawDateStr.replace('2569', '2026');
                         }
                         
@@ -72,7 +92,7 @@ class="antialiased">
                         let isSameDay = lastUpdate.toDateString() === today.toDateString();
                         
                         if (isSameDay) {
-                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 วันนี้อัปเดตแล้ว
+                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 ข้อมูลวันนี้อัปเดตแล้ว
                         } else {
                             if (currentHour >= 12 || currentHour < 8) {
                                 return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 เลยเที่ยงวันหรือพ้นวันไปแล้วไม่อัปเดต
@@ -99,15 +119,15 @@ class="antialiased">
                 <span class="text-sage font-medium text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
-                <template x-for="oil in oilList.filter(o => o.name !== 'latest_update_date')">
+                <template x-for="oil in oilList.filter(o => o.name && o.name.toString().trim() !== 'latest_update_date' && !o.name.toString().includes('_'))">
                     <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow">
                         <div>
                             <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.name"></p>
-                            <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="Number(oil.forecast_price).toFixed(2)"></p>
+                            <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="Number(oil.forecast_price || 0).toFixed(2)"></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="Number(oil.current_price).toFixed(2)"></span></p>
-                            <p class="text-sage font-medium text-lg" x-text="Number(oil.diff).toFixed(2)"></p>
+                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="Number(oil.current_price || 0).toFixed(2)"></span></p>
+                            <p class="text-sage font-medium text-lg" x-text="Number(oil.diff || 0).toFixed(2)"></p>
                         </div>
                     </div>
                 </template>
