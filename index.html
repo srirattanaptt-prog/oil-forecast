@@ -71,20 +71,15 @@ class="antialiased">
                 <span class="text-sage font-medium text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
-                <template x-for="oil in [
-                    {n: 'ดีเซล B7', p: '42.20', f: '41.60', d: '− 0.60'},
-                    {n: 'แก๊สโซฮอล์ 95', p: '44.90', f: '44.30', d: '− 0.60'},
-                    {n: 'แก๊สโซฮอล์ 91', p: '44.53', f: '43.93', d: '− 0.60'},
-                    {n: 'แก๊สโซฮอล์ E20', p: '37.90', f: '37.30', d: '− 0.60'}
-                ]">
+                <template x-for="oil in oilList">
                     <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.n"></p>
-                            <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="oil.f"></p>
+                            <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.name"></p>
+                            <p class="text-3xl font-light text-[#2F3535] mt-1" x-text="oil.forecast_price"></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="oil.p"></span></p>
-                            <p class="text-sage font-medium text-lg" x-text="oil.d"></p>
+                            <p class="text-[11px] text-[#B2BBBB] font-light leading-none mb-1 text-right">ปัจจุบัน <span x-text="oil.current_price"></span></p>
+                            <p class="text-sage font-medium text-lg" x-text="oil.diff"></p>
                         </div>
                     </div>
                 </template>
