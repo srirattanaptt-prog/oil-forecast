@@ -12,7 +12,7 @@
         
         body { 
             font-family: 'Inter', 'Noto Sans Thai', sans-serif; 
-            background-color: #F0F2F0; /* Soft Nordic Linen */
+            background-color: #F0F2F0; 
             color: #444B4D; 
             transition: all 0.4s ease;
             -webkit-font-smoothing: antialiased;
@@ -42,11 +42,12 @@
         ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
-<body x-data="{ mode: 'classic', oilList: [] 
-}" x-init="fetch('https://script.google.com/macros/s/AKfycbw3VFbRvlAhbJIgYXM3mFoNnSGvf2zI-i1YeqWXlpQr8O6NJ9SyCJFBA1rLGi1GTd9a0w/exec')
+<body x-data="{ mode: 'classic', oilList: [] }" 
+      x-init="fetch('https://script.google.com/macros/s/AKfycbw3VFbRvlAhbJIgYXM3mFoNnSGvf2zI-i1YeqWXlpQr8O6NJ9SyCJFBA1rLGi1GTd9a0w/exec')
             .then(res => res.json())
             .then(data => oilList = data)" 
-class="antialiased">
+      class="antialiased">
+
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
@@ -56,53 +57,42 @@ class="antialiased">
                 
                 <div x-data="{
                     get status() {
-                        if (!oilList || oilList.length === 0) return { color: 'bg-gray-400', text: 'Connecting...' };
+                        // 1. ตรวจสอบก่อนว่าข้อมูลโหลดมาจาก API สำเร็จหรือยัง
+                        if (!oilList || oilList.length === 0) return { color: 'bg-gray-400', text: 'CONNECTING...' };
                         
-                        // 1. ค้นหาแถวตรวจสอบวันที่ ไม่ว่าจะอยู่แถวไหนก็ตาม
-                        let updateItem = oilList.find(o => o.name && o.name.toString().trim() === 'latest_update_date');
-                        let rawDateStr = '';
+                        // 2. เจาะจงค้นหาแถวที่มี name ตรงกับลักชวนในตาราง
+                        let updateRow = oilList.find(item => item.name && item.name.toString().trim() === 'latest_update_date');
                         
-                        if (updateItem && updateItem.current_price) {
-                            rawDateStr = updateItem.current_price.toString().trim();
-                        } else if (oilList.length > 0) {
-                            // ถ้าโครงสร้างแถวขยับ ให้มองหาวัตถุแถวสุดท้ายที่มีการบันทึกข้อความวันที่เอาไว้
-                            let lastObj = oilList[oilList.length - 1];
-                            if (lastObj && lastObj.current_price) {
-                                rawDateStr = lastObj.current_price.toString().trim();
-                            }
-                        }
+                        // 3. ดึงค่าวันที่จากคีย์ current_price ตามโครงสร้างตารางแถวที่ 7
+                        let rawDateStr = updateRow && updateRow.current_price ? updateRow.current_price.toString().trim() : '';
                         
-                        if (!rawDateStr || rawDateStr === '0') return { color: 'bg-gray-400', text: 'Connecting...' };
+                        if (!rawDateStr || rawDateStr === '0') return { color: 'bg-gray-400', text: 'CONNECTING...' };
                         
-                        // 2. จัดระเบียบอักขระวันที่สแลชให้เป็นเครื่องหมายขีดกลาง
-                        rawDateStr = rawDateStr.replace(/\//g, '-'); 
-                        
-                        // 3. ระบบดักจับข้อความปี พ.ศ. และแปลงเป็นปี ค.ศ. สากลเพื่อให้ระบบคำนวณวันเวลาทำงานได้แม่นยำ
+                        // จัดการสแลชและอักขระแปลกปลอม
+                        rawDateStr = rawDateStr.replace(/\//g, '-');
                         if (rawDateStr.includes('2569')) rawDateStr = rawDateStr.replace('2569', '2026');
                         if (rawDateStr.includes('2570')) rawDateStr = rawDateStr.replace('2570', '2027');
                         
-                        // ตรวจสอบโครงสร้าง วัน-เดือน-ปี พ.ศ. สลับตำแหน่ง
                         let dateParts = rawDateStr.split('-');
                         if (dateParts.length === 3 && dateParts[0].length <= 2) {
-                            // สลับรูปแบบ DD-MM-YYYY มาเป็นฟอร์แมต YYYY-MM-DD
                             rawDateStr = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
                         }
 
                         let lastUpdate = new Date(rawDateStr);
-                        // ระบบป้องกันข้อผิดพลาดกรณี Parse วันที่ล้มเหลว (Fallback)
-                        if (isNaN(lastUpdate.getTime())) return { color: 'bg-yellow-500', text: 'Checking...' };
+                        if (isNaN(lastUpdate.getTime())) return { color: 'bg-yellow-500', text: 'CHECKING...' };
                         
                         let today = new Date();
                         let currentHour = today.getHours();
                         let isSameDay = lastUpdate.toDateString() === today.toDateString();
                         
+                        // เช็คเงื่อนไขตามบรีฟของคุณ
                         if (isSameDay) {
-                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 อัปเดตข้อมูลของวันปัจจุบันแล้ว
+                            return { color: 'bg-green-500', text: 'UPDATED' };
                         } else {
                             if (currentHour >= 12 || currentHour < 8) {
-                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 เลยช่วงเวลาตรวจเช็ค (8:00 - 12:00) ไปแล้วแต่ข้อมูลยังไม่อัปเดต
+                                return { color: 'bg-red-500', text: 'OUTDATED' };
                             }
-                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 อยู่ในช่วงกำลังเฝ้ารออัปเดตข้อมูลยามเช้า
+                            return { color: 'bg-yellow-500', text: 'CHECKING...' };
                         }
                     }
                 }" class="flex items-center gap-1.5 justify-center mt-3 bg-white/60 px-3 py-1 rounded-full border border-black/5 w-fit mx-auto shadow-sm">
@@ -118,13 +108,14 @@ class="antialiased">
             </div>
         </header>
 
-        <section x-show="mode === 'classic'" x-transition:enter.duration.500ms x-cloak class="space-y-4">
+        <section x-show="mode === 'classic' && oilList.length > 0" x-transition:enter.duration.500ms x-cloak class="space-y-4">
             <div class="nordic-card p-8 flex justify-between items-center border-b-4 border-[#A3B18A]">
                 <span class="text-sm font-light text-[#717D7E]">ทิศทางราคาพรุ่งนี้:</span>
                 <span class="text-sage font-medium text-lg bg-sage-light px-4 py-1 rounded-full uppercase text-xs tracking-widest">ราคาปรับลดลง</span>
             </div>
+            
             <div class="grid grid-cols-1 gap-4">
-                <template x-for="oil in oilList.filter(o => o.name && o.name.toString().trim() !== 'latest_update_date' && !o.name.toString().includes('_'))">
+                <template x-for="oil in oilList.filter(o => o.name && o.name.toString().trim() !== 'latest_update_date')">
                     <div class="nordic-card p-8 flex justify-between items-center hover:shadow-md transition-shadow">
                         <div>
                             <p class="text-[10px] text-[#919E9E] uppercase tracking-[0.2em] font-medium" x-text="oil.name"></p>
