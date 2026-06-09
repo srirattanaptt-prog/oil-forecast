@@ -56,48 +56,53 @@ class="antialiased">
                 
                 <div x-data="{
                     get status() {
-                        if (oilList.length === 0) return { color: 'bg-gray-400', text: 'Connecting...' };
+                        if (!oilList || oilList.length === 0) return { color: 'bg-gray-400', text: 'Connecting...' };
                         
-                        // ค้นหาแถวระบบตรวจสอบวันที่จากทุกแถวใน oilList
+                        // 1. ค้นหาแถวตรวจสอบวันที่ ไม่ว่าจะอยู่แถวไหนก็ตาม
                         let updateItem = oilList.find(o => o.name && o.name.toString().trim() === 'latest_update_date');
                         let rawDateStr = '';
                         
                         if (updateItem && updateItem.current_price) {
                             rawDateStr = updateItem.current_price.toString().trim();
-                        }
-                        
-                        // ถ้าหาในตัวแปรชื่อไม่เจอจริงๆ ให้ลองมองหาแถวสุดท้ายที่มีโครงสร้างวันที่ ค.ศ.
-                        if (!rawDateStr) {
-                            for (let i = oilList.length - 1; i >= 0; i--) {
-                                let val = (oilList[i].current_price || '').toString();
-                                if (val.includes('-') && val.split('-').length === 3) {
-                                    rawDateStr = val;
-                                    break;
-                                }
+                        } else if (oilList.length > 0) {
+                            // ถ้าโครงสร้างแถวขยับ ให้มองหาวัตถุแถวสุดท้ายที่มีการบันทึกข้อความวันที่เอาไว้
+                            let lastObj = oilList[oilList.length - 1];
+                            if (lastObj && lastObj.current_price) {
+                                rawDateStr = lastObj.current_price.toString().trim();
                             }
                         }
                         
-                        // ถ้าพยายามหาแล้วไม่มีข้อมูลเลย ให้คงสถานะ Connecting ไว้ก่อน
                         if (!rawDateStr || rawDateStr === '0') return { color: 'bg-gray-400', text: 'Connecting...' };
                         
-                        // รองรับกรณีในชีตส่งปี พ.ศ. 2569 เข้ามา ให้แปลงเป็น ค.ศ. 2026 อัตโนมัติในฝั่งเบราว์เซอร์
-                        if (rawDateStr.includes('2569')) {
-                            rawDateStr = rawDateStr.replace('2569', '2026');
-                        }
+                        // 2. จัดระเบียบอักขระวันที่สแลชให้เป็นเครื่องหมายขีดกลาง
+                        rawDateStr = rawDateStr.replace(/\//g, '-'); 
                         
+                        // 3. ระบบดักจับข้อความปี พ.ศ. และแปลงเป็นปี ค.ศ. สากลเพื่อให้ระบบคำนวณวันเวลาทำงานได้แม่นยำ
+                        if (rawDateStr.includes('2569')) rawDateStr = rawDateStr.replace('2569', '2026');
+                        if (rawDateStr.includes('2570')) rawDateStr = rawDateStr.replace('2570', '2027');
+                        
+                        // ตรวจสอบโครงสร้าง วัน-เดือน-ปี พ.ศ. สลับตำแหน่ง
+                        let dateParts = rawDateStr.split('-');
+                        if (dateParts.length === 3 && dateParts[0].length <= 2) {
+                            // สลับรูปแบบ DD-MM-YYYY มาเป็นฟอร์แมต YYYY-MM-DD
+                            rawDateStr = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+                        }
+
                         let lastUpdate = new Date(rawDateStr);
+                        // ระบบป้องกันข้อผิดพลาดกรณี Parse วันที่ล้มเหลว (Fallback)
+                        if (isNaN(lastUpdate.getTime())) return { color: 'bg-yellow-500', text: 'Checking...' };
+                        
                         let today = new Date();
                         let currentHour = today.getHours();
-                        
                         let isSameDay = lastUpdate.toDateString() === today.toDateString();
                         
                         if (isSameDay) {
-                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 ข้อมูลวันนี้อัปเดตแล้ว
+                            return { color: 'bg-green-500', text: 'Updated' }; // 🟢 อัปเดตข้อมูลของวันปัจจุบันแล้ว
                         } else {
                             if (currentHour >= 12 || currentHour < 8) {
-                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 เลยเที่ยงวันหรือพ้นวันไปแล้วไม่อัปเดต
+                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 เลยช่วงเวลาตรวจเช็ค (8:00 - 12:00) ไปแล้วแต่ข้อมูลยังไม่อัปเดต
                             }
-                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 ช่วงเวลารอดึงข้อมูล 08:00 - 12:00 น.
+                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 อยู่ในช่วงกำลังเฝ้ารออัปเดตข้อมูลยามเช้า
                         }
                     }
                 }" class="flex items-center gap-1.5 justify-center mt-3 bg-white/60 px-3 py-1 rounded-full border border-black/5 w-fit mx-auto shadow-sm">
