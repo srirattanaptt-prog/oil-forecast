@@ -59,7 +59,13 @@ class="antialiased">
                         let updateItem = oilList.find(o => o.name === 'latest_update_date');
                         if (!updateItem) return { color: 'bg-gray-400', text: 'Connecting...' };
                         
-                        let lastUpdate = new Date(updateItem.current_price);
+                        let rawDateStr = updateItem.current_price.toString().trim();
+                        // เผื่อกรณีในชีตส่งเลขปี พ.ศ. (2569) เข้ามา ให้แปลงเป็น ค.ศ. (2026) อัตโนมัติในฝั่งเว็บ
+                        if(rawDateStr.includes('2569')) {
+                            rawDateStr = rawDateStr.replace('2569', '2026');
+                        }
+                        
+                        let lastUpdate = new Date(rawDateStr);
                         let today = new Date();
                         let currentHour = today.getHours();
                         
@@ -69,9 +75,9 @@ class="antialiased">
                             return { color: 'bg-green-500', text: 'Updated' }; // 🟢 วันนี้อัปเดตแล้ว
                         } else {
                             if (currentHour >= 12 || currentHour < 8) {
-                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 ไม่อัปเดต (เลยเที่ยงวัน/หลังเที่ยงคืน)
+                                return { color: 'bg-red-500', text: 'Outdated' }; // 🔴 เลยเที่ยงวันหรือพ้นวันไปแล้วไม่อัปเดต
                             }
-                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 กำลังเช็คช่วง 8 โมงเช้า - เที่ยง
+                            return { color: 'bg-yellow-500', text: 'Checking...' }; // 🟡 ช่วงเวลารอดึงข้อมูล 08:00 - 12:00 น.
                         }
                     }
                 }" class="flex items-center gap-1.5 justify-center mt-3 bg-white/60 px-3 py-1 rounded-full border border-black/5 w-fit mx-auto shadow-sm">
