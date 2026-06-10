@@ -19,11 +19,11 @@
     </style>
 </head>
 <body x-data="{ mode: 'classic', oilList: [] }" 
-      x-init="fetch('https://raw.githubusercontent.com/srirattanaptt-prog/oil-forecast/main/oil_data.json')
+      x-init="fetch('/oil-forecast/oil_data.json')
             .then(res => res.json())
             .then(data => oilList = data)" 
       class="antialiased">
-
+    
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
