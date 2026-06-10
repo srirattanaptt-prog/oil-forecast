@@ -16,7 +16,7 @@ jobs:
       - name: Fetch Latest Data from Google Sheets
         run: |
           # 💡 เปลี่ยนตรง URL ด้านล่างนี้ให้เป็น URL Web App Google Apps Script ของคุณครับ
-          curl -L "https://script.google.com/macros/s/AKfycbw3VFbRvlAhbJIgYXM3mFoNnSGvf2zI-i1YeqWXlpQr8O6NJ9SyCJFBA1rLGi1GTd9a0w/exec" -o oil_data.json
+          curl -L "https://script.google.com/macros/s/AKfycbwmWj0VWOYL8_RcqEUxeAe0CYX7zXUfNZft8VvP0Z3_RULFexidm1tctvSxAwxEYM8S3g/exec" -o oil_data.json
 
       - name: Commit and Push if Data Changed
         run: |
