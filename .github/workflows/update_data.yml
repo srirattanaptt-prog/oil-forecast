@@ -2,10 +2,11 @@ name: Automated Oil Data Sync
 
 on:
   schedule:
+    # ตั้งให้บอทตื่นมาทำงานทุกๆ 15 นาทีสม่ำเสมอ
     - cron: '*/15 * * * *'
-  workflow_dispatch: 
+  workflow_dispatch: # เปิดปุ่มกดรันมือด้วยตัวเองบนเว็บ GitHub
 
-# 🔐 เพิ่มส่วนนี้เพื่ออนุญาตให้บอทเขียนไฟล์ลงในคลังโค้ดได้อย่างปลอดภัย
+# 🔐 เปิดสิทธิ์สูงสุดให้บอทสามารถเขียนและส่งไฟล์กลับเข้าคลังตัวเองได้
 permissions:
   contents: write
 
@@ -16,22 +17,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
-          persist-credentials: true # บังคับใช้สิทธิ์แบบยั่งยืน
+          persist-credentials: true
 
       - name: Fetch Latest Data from Google Sheets
         run: |
+          # ยิงดึงข้อมูลจาก Web App ล่าสุด แล้วบันทึกออกเป็นไฟล์ชื่อ oil_data.json
           curl -L "https://script.google.com/macros/s/AKfycbwmWj0VWOYL8_RcqEUxeAe0CYX7zXUfNZft8VvP0Z3_RULFexidm1tctvSxAwxEYM8S3g/exec" -o oil_data.json
 
-      - name: Commit and Push if Data Changed
+      - name: Commit and Push Data
         run: |
+          # ตั้งค่าตัวตนให้บอท GitHub Actions
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add oil_data.json
           
-          # ตรวจสอบการเปลี่ยนแปลง ถ้าไม่มีอะไรใหม่จะไม่บันทึกซ้ำ
-          if git diff --staged --quiet; then
-            echo "No changes detected in oil data."
-          else
-            git commit -m "🤖 Auto-updated oil price data [Skip CI]"
-            git push
-          fi
+          # บังคับเพิ่มไฟล์เข้าสู่ระบบและกดบันทึกส่งทันทีแบบไม่มีเงื่อนไข
+          git add oil_data.json
+          git commit -m "🤖 Force sync latest oil data" || echo "No changes to commit"
+          git push
