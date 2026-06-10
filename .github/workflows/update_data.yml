@@ -1,0 +1,26 @@
+name: Automated Oil Data Sync
+
+on:
+  schedule:
+    # ตั้งให้บอทตื่นมาทำงานทุกๆ 15 นาที
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # เปิดปุ่มให้กดอัปเดตเองมือได้ด้วย
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetch Latest Data from Google Sheets
+        run: |
+          # 💡 เปลี่ยนตรง URL ด้านล่างนี้ให้เป็น URL Web App Google Apps Script ของคุณครับ
+          curl -L "https://script.google.com/macros/s/AKfycbw3VFbRvlAhbJIgYXM3mFoNnSGvf2zI-i1YeqWXlpQr8O6NJ9SyCJFBA1rLGi1GTd9a0w/exec" -o oil_data.json
+
+      - name: Commit and Push if Data Changed
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add oil_data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-updated oil price data [Skip CI]" && git push)
