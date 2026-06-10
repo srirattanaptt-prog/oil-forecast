@@ -5,6 +5,10 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch: 
 
+# 🟢 บังคับให้บอทกระโดดข้ามไปใช้ระบบท่อ Node.js 24 ตัวล่าสุดทันทีตามคำแนะนำของ GitHub
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
 
@@ -13,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        # 🟢 ปรับเปลี่ยนจาก @v3 เป็น @v4 เพื่อรองรับระบบ Node.js 24 ล่าสุดของ GitHub เรียบร้อยครับ
         uses: actions/checkout@v4
         with:
           persist-credentials: true
