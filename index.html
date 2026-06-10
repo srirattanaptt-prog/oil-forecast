@@ -23,7 +23,7 @@
             .then(res => res.json())
             .then(data => oilList = data)" 
       class="antialiased">
-    
+
     <div class="max-w-md mx-auto md:max-w-4xl px-5 py-10 md:py-16">
         
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
@@ -51,17 +51,19 @@
                         let lastUpdate = new Date(rawDateStr);
                         if (isNaN(lastUpdate.getTime())) return { color: 'bg-yellow-500', text: 'CHECKING...' };
                         
+                        // ล้างเวลาทิ้งเพื่อให้เทียบแค่วันที่ล้วนๆ
                         let today = new Date();
+                        let d1 = new Date(lastUpdate.getFullYear(), lastUpdate.getMonth(), lastUpdate.getDate());
+                        let d2 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                        
                         let currentHour = today.getHours();
-                        let isSameDay = lastUpdate.toDateString() === today.toDateString();
+                        let isSameDay = d1.getTime() === d2.getTime();
                         
                         if (isSameDay) {
                             return { color: 'bg-green-500', text: 'UPDATED' };
                         } else {
-                            if (currentHour >= 12 || currentHour < 8) {
-                                return { color: 'bg-red-500', text: 'OUTDATED' };
-                            }
-                            return { color: 'bg-yellow-500', text: 'CHECKING...' };
+                            // ถ้าข้อมูลไม่ใช่วันปัจจุบัน ถือว่าตกรุ่นทันที (OUTDATED)
+                            return { color: 'bg-red-500', text: 'OUTDATED' };
                         }
                     }
                 }" class="flex items-center gap-1.5 justify-center mt-3 bg-white/60 px-3 py-1 rounded-full border border-black/5 w-fit mx-auto shadow-sm">
@@ -138,6 +140,10 @@
         </section>
 
         <footer class="mt-20 text-center space-y-6">
+            <p class="text-[10px] text-[#919E9E] max-w-md mx-auto leading-relaxed font-light">
+                <span class="font-medium text-[#717D7E]">Disclaimer:</span> ข้อมูลทั้งหมดเป็นแบบจำลองเชิงสถิติเพื่อเพิ่มประสิทธิภาพการตัดสินใจเชิงพาณิชย์ ไม่ใช่การยืนยันราคาอย่างเป็นทางการจากผู้ค้าน้ำมัน
+            </p>
+            <div class="w-1.5 h-1.5 bg-[#B2BBBB] rounded-full mx-auto"></div>
             <p class="text-[11px] uppercase tracking-[0.4em] text-[#B2BBBB]">ADVANCE DYNAMIC PLATFORM</p>
         </footer>
     </div>
