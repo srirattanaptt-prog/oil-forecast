@@ -19,7 +19,7 @@
     </style>
 </head>
 <body x-data="{ mode: 'classic', oilList: [] }" 
-      x-init="fetch('./oil_data.json')
+      x-init="fetch('https://raw.githubusercontent.com/srirattanaptt-prog/oil-forecast/main/oil_data.json')
             .then(res => res.json())
             .then(data => oilList = data)" 
       class="antialiased">
