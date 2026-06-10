@@ -9,41 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         [x-cloak] { display: none !important; }
-        
-        body { 
-            font-family: 'Inter', 'Noto Sans Thai', sans-serif; 
-            background-color: #F0F2F0; 
-            color: #444B4D; 
-            transition: all 0.4s ease;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .nordic-card {
-            background: #FFFFFF;
-            border-radius: 24px;
-            border: 1px solid rgba(0,0,0,0.02);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04);
-        }
-
-        .mode-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #717D7E;
-        }
-        .mode-btn.active {
-            background-color: #FFFFFF;
-            color: #2F3535;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
+        body { font-family: 'Inter', 'Noto Sans Thai', sans-serif; background-color: #F0F2F0; color: #444B4D; -webkit-font-smoothing: antialiased; }
+        .nordic-card { background: #FFFFFF; border-radius: 24px; border: 1px solid rgba(0,0,0,0.02); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04); }
+        .mode-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); color: #717D7E; }
+        .mode-btn.active { background-color: #FFFFFF; color: #2F3535; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .nerd-font { font-family: 'JetBrains Mono', monospace; }
         .text-sage { color: #5B8468; }
         .bg-sage-light { background-color: #F1F4F1; }
-
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
 <body x-data="{ mode: 'classic', oilList: [] }" 
-      x-init="fetch('https://script.google.com/macros/s/AKfycbwC0RMx5nVug-tCiThMNR0W-4ATHd_9mj_JGPa7xwASUXTv6ud89CazlXt5W25LwM7aiQ/exec')
+      x-init="fetch('./oil_data.json')
             .then(res => res.json())
             .then(data => oilList = data)" 
       class="antialiased">
@@ -53,22 +29,16 @@
         <header class="flex flex-col items-center mb-12 gap-8 text-center">
             <div>
                 <h1 class="text-3xl font-light tracking-tighter text-[#2F3535]">คาดการณ์ราคาน้ำมัน</h1>
-                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal italic">Updated 20 May 2569 | 18:18</p>
+                <p class="text-[11px] text-[#919E9E] mt-3 uppercase tracking-[0.2em] font-normal italic">ADVANCE AUTOMATION SYSTEM</p>
                 
                 <div x-data="{
                     get status() {
-                        // 1. ตรวจสอบก่อนว่าข้อมูลโหลดมาจาก API สำเร็จหรือยัง
                         if (!oilList || oilList.length === 0) return { color: 'bg-gray-400', text: 'CONNECTING...' };
-                        
-                        // 2. เจาะจงค้นหาแถวที่มี name ตรงกับลักชวนในตาราง
                         let updateRow = oilList.find(item => item.name && item.name.toString().trim() === 'latest_update_date');
-                        
-                        // 3. ดึงค่าวันที่จากคีย์ current_price ตามโครงสร้างตารางแถวที่ 7
                         let rawDateStr = updateRow && updateRow.current_price ? updateRow.current_price.toString().trim() : '';
                         
                         if (!rawDateStr || rawDateStr === '0') return { color: 'bg-gray-400', text: 'CONNECTING...' };
                         
-                        // จัดการสแลชและอักขระแปลกปลอม
                         rawDateStr = rawDateStr.replace(/\//g, '-');
                         if (rawDateStr.includes('2569')) rawDateStr = rawDateStr.replace('2569', '2026');
                         if (rawDateStr.includes('2570')) rawDateStr = rawDateStr.replace('2570', '2027');
@@ -85,7 +55,6 @@
                         let currentHour = today.getHours();
                         let isSameDay = lastUpdate.toDateString() === today.toDateString();
                         
-                        // เช็คเงื่อนไขตามบรีฟของคุณ
                         if (isSameDay) {
                             return { color: 'bg-green-500', text: 'UPDATED' };
                         } else {
@@ -145,7 +114,6 @@
                     </div>
                 </template>
             </div>
-            
             <div class="nordic-card p-8 bg-[#2F3535] text-[#F0F2F0]">
                 <h3 class="text-[10px] uppercase tracking-[0.2em] text-[#919E9E] mb-4 font-medium">Tank Strategy</h3>
                 <p class="text-lg font-light leading-relaxed">
@@ -170,18 +138,8 @@
         </section>
 
         <footer class="mt-20 text-center space-y-6">
-            <div class="space-y-2">
-                <p class="text-[11px] uppercase tracking-[0.4em] text-[#B2BBBB] font-normal">ADVANCE DYNAMIC PLATFORM</p>
-                <p class="text-[10px] text-[#B2BBBB] font-light opacity-80 uppercase tracking-wider italic">The Power Behind the PTT Dealer Station.</p>
-            </div>
-            
-            <div class="max-w-2xl mx-auto px-4 pt-6 border-t border-[#E4E9E4]">
-                <p class="text-[9px] text-[#B2BBBB] leading-relaxed text-justify md:text-center font-light uppercase tracking-tighter">
-                    <span class="font-medium">LEGAL DISCLAIMER:</span> The information provided herein is a predictive estimate generated via financial engineering models and is intended for informational and educational purposes only. These projections are subject to inherent market volatility, data limitations, and unforeseen geopolitical variables. This platform makes no warranties, express or implied, regarding the absolute accuracy, completeness, or reliability of the forecasted values. Any financial or commercial decisions made based on this information are at the sole risk and discretion of the user. In no event shall this platform, its developers, or affiliates be liable for any direct, indirect, incidental, or consequential losses, damages, or legal claims arising from reliance upon these estimates. NOT an official government or oil company announcement.
-                </p>
-            </div>
+            <p class="text-[11px] uppercase tracking-[0.4em] text-[#B2BBBB]">ADVANCE DYNAMIC PLATFORM</p>
         </footer>
     </div>
-
 </body>
 </html>
