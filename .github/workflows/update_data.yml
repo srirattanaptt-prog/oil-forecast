@@ -2,11 +2,9 @@ name: Automated Oil Data Sync
 
 on:
   schedule:
-    # ตั้งให้บอทตื่นมาทำงานทุกๆ 15 นาทีสม่ำเสมอ
     - cron: '*/15 * * * *'
-  workflow_dispatch: # เปิดปุ่มกดรันมือด้วยตัวเองบนเว็บ GitHub
+  workflow_dispatch: 
 
-# 🔐 เปิดสิทธิ์สูงสุดให้บอทสามารถเขียนและส่งไฟล์กลับเข้าคลังตัวเองได้
 permissions:
   contents: write
 
@@ -15,22 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        # 🟢 ปรับเปลี่ยนจาก @v3 เป็น @v4 เพื่อรองรับระบบ Node.js 24 ล่าสุดของ GitHub เรียบร้อยครับ
+        uses: actions/checkout@v4
         with:
           persist-credentials: true
 
       - name: Fetch Latest Data from Google Sheets
         run: |
-          # ยิงดึงข้อมูลจาก Web App ล่าสุด แล้วบันทึกออกเป็นไฟล์ชื่อ oil_data.json
           curl -L "https://script.google.com/macros/s/AKfycbwmWj0VWOYL8_RcqEUxeAe0CYX7zXUfNZft8VvP0Z3_RULFexidm1tctvSxAwxEYM8S3g/exec" -o oil_data.json
 
       - name: Commit and Push Data
         run: |
-          # ตั้งค่าตัวตนให้บอท GitHub Actions
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # บังคับเพิ่มไฟล์เข้าสู่ระบบและกดบันทึกส่งทันทีแบบไม่มีเงื่อนไข
           git add oil_data.json
           git commit -m "🤖 Force sync latest oil data" || echo "No changes to commit"
           git push
